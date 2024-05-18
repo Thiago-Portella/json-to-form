@@ -104,6 +104,16 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
                     checkbox.setAttribute('aria-label', `${key} ${checkbox.checked ? 'true' : 'false'}`);
                 });
                 fieldContainer.appendChild(checkbox);
+            } else if (typeof value === 'number') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = fieldId;
+                input.value = value;
+                input.setAttribute('pattern', '[0-9]*\\.?[0-9]*');
+                input.addEventListener('input', function() {
+                    input.value = input.value.replace(/[^0-9.]/g, '');
+                });
+                fieldContainer.appendChild(input);
             } else {
                 const input = document.createElement('input');
                 input.type = 'text';
@@ -127,6 +137,8 @@ function updateJsonFromForm(form) {
             if (index === keys.length - 1) {
                 if (element.type === 'checkbox') {
                     current[key] = element.checked;
+                } else if (element.type === 'text' && element.getAttribute('pattern') === '[0-9]*\\.?[0-9]*') {
+                    current[key] = element.value.includes('.') ? parseFloat(element.value) : parseInt(element.value);
                 } else {
                     current[key] = element.value;
                 }
