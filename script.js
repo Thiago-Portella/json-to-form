@@ -184,6 +184,7 @@ function addNewFieldButton(parentElement, jsonObject, parentKey = '') {
                 parentElement.appendChild(newFieldContainer);
                 parentElement.removeChild(newFieldTypeContainer);
                 parentElement.removeChild(confirmButton);
+                parentElement.appendChild(addButton); // Move the add button to the end
             });
             parentElement.appendChild(confirmButton);
         }
