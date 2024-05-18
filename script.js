@@ -94,6 +94,16 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
                     }
                 });
                 fieldContainer.appendChild(nestedContainer);
+            } else if (typeof value === 'boolean') {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = fieldId;
+                checkbox.checked = value;
+                checkbox.setAttribute('aria-label', `${key} ${value ? 'true' : 'false'}`);
+                checkbox.addEventListener('change', function() {
+                    checkbox.setAttribute('aria-label', `${key} ${checkbox.checked ? 'true' : 'false'}`);
+                });
+                fieldContainer.appendChild(checkbox);
             } else {
                 const input = document.createElement('input');
                 input.type = 'text';
@@ -115,7 +125,11 @@ function updateJsonFromForm(form) {
         let current = updatedJson;
         keys.forEach((key, index) => {
             if (index === keys.length - 1) {
-                current[key] = element.value;
+                if (element.type === 'checkbox') {
+                    current[key] = element.checked;
+                } else {
+                    current[key] = element.value;
+                }
             } else {
                 if (!current[key]) {
                     current[key] = isNaN(keys[index + 1]) ? {} : [];
