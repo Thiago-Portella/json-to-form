@@ -5,6 +5,7 @@ document.getElementById('generateForm').addEventListener('click', function() {
         const form = document.getElementById('jsonForm');
         form.innerHTML = '';
         generateFormFields(jsonObject, form);
+        addNewFieldButton(form, jsonObject, '');
     } catch (e) {
         alert('JSON inválido');
     }
@@ -45,6 +46,7 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
                 nestedContainer.style.display = 'none';
                 generateFormFields(value, nestedContainer, fieldId);
                 fieldContainer.appendChild(nestedContainer);
+                addNewFieldButton(nestedContainer, value, fieldId);
             } else if (Array.isArray(value)) {
                 const toggleButton = document.createElement('button');
                 toggleButton.textContent = 'Expandir';
@@ -94,6 +96,7 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
                     }
                 });
                 fieldContainer.appendChild(nestedContainer);
+                addNewFieldButton(nestedContainer, value, fieldId);
             } else if (typeof value === 'boolean') {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -125,6 +128,67 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
             parentElement.appendChild(fieldContainer);
         }
     }
+}
+
+function addNewFieldButton(parentElement, jsonObject, parentKey = '') {
+    const addButton = document.createElement('button');
+    addButton.textContent = `Adicionar Campo em ${parentKey || 'root'}`;
+    addButton.setAttribute('type', 'button');
+    addButton.addEventListener('click', function() {
+        const newFieldKey = prompt('Digite o nome do novo campo:');
+        if (newFieldKey) {
+            const newFieldTypeContainer = document.createElement('div');
+            const newFieldTypeLabel = document.createElement('label');
+            newFieldTypeLabel.textContent = 'Escolha o tipo do novo campo:';
+            const newFieldTypeSelect = document.createElement('select');
+            const fieldTypeOptions = ['string', 'number', 'boolean', 'object', 'array'];
+            fieldTypeOptions.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                newFieldTypeSelect.appendChild(optionElement);
+            });
+            newFieldTypeContainer.appendChild(newFieldTypeLabel);
+            newFieldTypeContainer.appendChild(newFieldTypeSelect);
+            parentElement.appendChild(newFieldTypeContainer);
+
+            const confirmButton = document.createElement('button');
+            confirmButton.textContent = 'Confirmar';
+            confirmButton.setAttribute('type', 'button');
+            confirmButton.addEventListener('click', function() {
+                const newFieldType = newFieldTypeSelect.value;
+                let newFieldValue;
+                switch (newFieldType) {
+                    case 'string':
+                        newFieldValue = '';
+                        break;
+                    case 'number':
+                        newFieldValue = 0;
+                        break;
+                    case 'boolean':
+                        newFieldValue = false;
+                        break;
+                    case 'object':
+                        newFieldValue = {};
+                        break;
+                    case 'array':
+                        newFieldValue = [];
+                        break;
+                    default:
+                        alert('Tipo inválido!');
+                        return;
+                }
+                jsonObject[newFieldKey] = newFieldValue;
+                const newFieldContainer = document.createElement('div');
+                generateFormFields({ [newFieldKey]: newFieldValue }, newFieldContainer, parentKey);
+                parentElement.appendChild(newFieldContainer);
+                parentElement.removeChild(newFieldTypeContainer);
+                parentElement.removeChild(confirmButton);
+            });
+            parentElement.appendChild(confirmButton);
+        }
+    });
+    parentElement.appendChild(addButton);
 }
 
 function updateJsonFromForm(form) {
