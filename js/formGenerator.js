@@ -4,9 +4,9 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
             const value = jsonObject[key];
             const fieldContainer = document.createElement('div');
             const label = document.createElement('label');
-            const fieldId = parentKey ? `${parentKey}_${key}` : key;
+            const fieldId = parentKey ? `${parentKey}__FIELD__${key}` : key;
             label.setAttribute('for', fieldId);
-            label.textContent = key;
+            label.innerHTML = `<a href="#" class="edit-link" data-key="${fieldId}">${key}</a>`;
             fieldContainer.appendChild(label);
 
             if (typeof value === 'object' && !Array.isArray(value)) {
@@ -55,9 +55,9 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
 
     value.forEach((item, index) => {
         const arrayLabel = document.createElement('label');
-        const arrayFieldId = `${fieldId}_${index}`;
+        const arrayFieldId = `${fieldId}__FIELD__${index}`;
         arrayLabel.setAttribute('for', arrayFieldId);
-        arrayLabel.textContent = `${key}[${index}]`;
+        arrayLabel.innerHTML = `<a href="#" class="edit-link" data-key="${arrayFieldId}">${key}[${index}]</a>`;
         nestedContainer.appendChild(arrayLabel);
         if (typeof item === 'object') {
             createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId);
