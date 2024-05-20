@@ -58,11 +58,11 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
         const arrayFieldId = `${fieldId}__FIELD__${index}`;
         arrayLabel.setAttribute('for', arrayFieldId);
         arrayLabel.innerHTML = `<a href="#" class="edit-link" data-key="${arrayFieldId}">${key}[${index}]</a>`;
-        nestedContainer.appendChild(arrayLabel);
+        fieldContainer.appendChild(arrayLabel);
         if (typeof item === 'object') {
-            createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId);
+            createNestedArrayFields(fieldContainer, key, index, item, arrayFieldId);
         } else {
-            createInputField(nestedContainer, arrayFieldId, item, `${key}[${index}]`);
+            createInputField(fieldContainer, arrayFieldId, item, `${key}[${index}]`);
         }
     });
 

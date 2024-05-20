@@ -51,7 +51,7 @@ function addEditDeleteListeners() {
                 `;
             }
 
-            fieldContainer.appendChild(editContainer);
+            event.target.parentNode.insertBefore(editContainer, event.target.nextSibling);
 
             if (isNaN(key)) {
                 editContainer.querySelector('.save-key-btn').addEventListener('click', function() {
