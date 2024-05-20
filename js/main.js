@@ -18,15 +18,26 @@ function handleUpdateJson() {
     const form = document.getElementById('jsonForm');
     const updatedJson = updateJsonFromForm(form);
     document.getElementById('jsonInput').value = JSON.stringify(updatedJson, null, 2);
+    handleGenerateForm(); // Recria o formulário a partir do JSON atualizado
 }
 
 function addEditDeleteListeners() {
     document.querySelectorAll('.edit-link').forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
-            const key = event.target.dataset.key;
+            const fullKey = event.target.dataset.key;
+            const keyParts = fullKey.split('__FIELD__');
+            const key = keyParts[keyParts.length - 1];
             const fieldContainer = event.target.closest('div');
-            const editContainer = document.createElement('div');
+
+            let editContainer = fieldContainer.querySelector('.edit-container');
+            if (editContainer) {
+                editContainer.remove();
+                return;
+            }
+
+            editContainer = document.createElement('div');
+            editContainer.classList.add('edit-container');
             editContainer.innerHTML = `
                 <input type="text" value="${key}" class="edit-key-input">
                 <button type="button" class="save-key-btn">Salvar</button>
@@ -36,14 +47,18 @@ function addEditDeleteListeners() {
 
             editContainer.querySelector('.save-key-btn').addEventListener('click', function() {
                 const newKey = editContainer.querySelector('.edit-key-input').value;
+                const newFullKey = fullKey.replace(key, newKey);
                 event.target.textContent = newKey;
-                event.target.dataset.key = newKey;
-                updateFieldIds(fieldContainer, key, newKey);
+                event.target.dataset.key = newFullKey;
+                updateFieldIds(fieldContainer, fullKey, newFullKey);
+                updateButtonLabels(fieldContainer, fullKey, newFullKey);
                 editContainer.remove();
             });
 
             editContainer.querySelector('.delete-key-btn').addEventListener('click', function() {
-                fieldContainer.remove();
+                if (confirm(`Você realmente deseja deletar o campo "${key}"?`)) {
+                    fieldContainer.remove();
+                }
             });
         });
     });
@@ -56,6 +71,18 @@ function updateFieldIds(container, oldKey, newKey) {
         element.id = newId;
         if (element.tagName === 'LABEL') {
             element.setAttribute('for', newId);
+        }
+    });
+}
+
+function updateButtonLabels(container, oldKey, newKey) {
+    const buttons = container.querySelectorAll('button');
+    buttons.forEach(button => {
+        if (button.textContent.includes('Expandir') || button.textContent.includes('Recolher')) {
+            const ariaLabel = button.getAttribute('aria-label');
+            const updatedLabel = ariaLabel.replace(oldKey, newKey);
+            button.setAttribute('aria-label', updatedLabel);
+            button.textContent = button.textContent.replace(oldKey, newKey);
         }
     });
 }
