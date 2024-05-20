@@ -2,7 +2,7 @@ function updateJsonFromForm(form) {
     const updatedJson = {};
     const elements = form.querySelectorAll('input');
     elements.forEach(element => {
-        const keys = element.id.split('_');
+        const keys = element.id.split('__FIELD__');
         let current = updatedJson;
         keys.forEach((key, index) => {
             if (index === keys.length - 1) {

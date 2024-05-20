@@ -4,9 +4,9 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
             const value = jsonObject[key];
             const fieldContainer = document.createElement('div');
             const label = document.createElement('label');
-            const fieldId = parentKey ? `${parentKey}_${key}` : key;
+            const fieldId = parentKey ? `${parentKey}__FIELD__${key}` : key;
             label.setAttribute('for', fieldId);
-            label.textContent = key;
+            label.innerHTML = `<a href="#" class="edit-link" data-key="${fieldId}">${key}</a>`;
             fieldContainer.appendChild(label);
 
             if (typeof value === 'object' && !Array.isArray(value)) {
@@ -23,14 +23,14 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
 }
 
 function createToggleButton(fieldContainer, key, fieldId, value) {
-    const toggleButton = createButton('Expandir', `Expandir Objeto ${key}`);
+    const toggleButton = createButton('Expandir', `Expandir objeto ${key}`);
     const nestedContainer = document.createElement('div');
     nestedContainer.style.display = 'none';
 
     toggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = toggleButton.textContent === 'Recolher';
         toggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
-        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} ${key}`);
+        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} objeto ${key}`);
         nestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
 
@@ -40,14 +40,14 @@ function createToggleButton(fieldContainer, key, fieldId, value) {
 }
 
 function createArrayFields(fieldContainer, key, fieldId, value) {
-    const toggleButton = createButton('Expandir', `Expandir Lista ${key}`);
+    const toggleButton = createButton('Expandir', `Expandir lista ${key}`);
     const nestedContainer = document.createElement('div');
     nestedContainer.style.display = 'none';
 
     toggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = toggleButton.textContent === 'Recolher';
         toggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
-        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} Lista ${key}`);
+        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} lista ${key}`);
         nestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
 
@@ -55,9 +55,9 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
 
     value.forEach((item, index) => {
         const arrayLabel = document.createElement('label');
-        const arrayFieldId = `${fieldId}_${index}`;
+        const arrayFieldId = `${fieldId}__FIELD__${index}`;
         arrayLabel.setAttribute('for', arrayFieldId);
-        arrayLabel.textContent = `${key}[${index}]`;
+        arrayLabel.innerHTML = `<a href="#" class="edit-link" data-key="${arrayFieldId}">${key}[${index}]</a>`;
         nestedContainer.appendChild(arrayLabel);
         if (typeof item === 'object') {
             createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId);
@@ -71,14 +71,14 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
 
 function createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId) {
     const itemContainer = document.createElement('div');
-    const itemToggleButton = createButton('Expandir', `Expandir Objeto ${key}[${index}]`);
+    const itemToggleButton = createButton('Expandir', `Expandir objeto ${key}[${index}]`);
     const itemNestedContainer = document.createElement('div');
     itemNestedContainer.style.display = 'none';
 
     itemToggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = itemToggleButton.textContent === 'Recolher';
         itemToggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
-        itemToggleButton.setAttribute('aria-label', `${itemToggleButton.textContent} ${key}[${index}]`);
+        itemToggleButton.setAttribute('aria-label', `${itemToggleButton.textContent} objeto ${key}[${index}]`);
         itemNestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
 
