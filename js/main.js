@@ -38,22 +38,32 @@ function addEditDeleteListeners() {
 
             editContainer = document.createElement('div');
             editContainer.classList.add('edit-container');
-            editContainer.innerHTML = `
-                <input type="text" value="${key}" class="edit-key-input">
-                <button type="button" class="save-key-btn">Salvar</button>
-                <button type="button" class="delete-key-btn">Deletar</button>
-            `;
+
+            if (isNaN(key)) {
+                editContainer.innerHTML = `
+                    <input type="text" value="${key}" class="edit-key-input">
+                    <button type="button" class="save-key-btn">Salvar</button>
+                    <button type="button" class="delete-key-btn">Deletar</button>
+                `;
+            } else {
+                editContainer.innerHTML = `
+                    <button type="button" class="delete-key-btn">Deletar</button>
+                `;
+            }
+
             fieldContainer.appendChild(editContainer);
 
-            editContainer.querySelector('.save-key-btn').addEventListener('click', function() {
-                const newKey = editContainer.querySelector('.edit-key-input').value;
-                const newFullKey = fullKey.replace(key, newKey);
-                event.target.textContent = newKey;
-                event.target.dataset.key = newFullKey;
-                updateFieldIds(fieldContainer, fullKey, newFullKey);
-                updateButtonLabels(fieldContainer, fullKey, newFullKey);
-                editContainer.remove();
-            });
+            if (isNaN(key)) {
+                editContainer.querySelector('.save-key-btn').addEventListener('click', function() {
+                    const newKey = editContainer.querySelector('.edit-key-input').value;
+                    const newFullKey = fullKey.replace(key, newKey);
+                    event.target.textContent = newKey;
+                    event.target.dataset.key = newFullKey;
+                    updateFieldIds(fieldContainer, fullKey, newFullKey);
+                    updateButtonLabels(fieldContainer, fullKey, newFullKey);
+                    editContainer.remove();
+                });
+            }
 
             editContainer.querySelector('.delete-key-btn').addEventListener('click', function() {
                 if (confirm(`Você realmente deseja deletar o campo "${key}"?`)) {
