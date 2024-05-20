@@ -10,7 +10,7 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
             fieldContainer.appendChild(label);
 
             if (typeof value === 'object' && !Array.isArray(value)) {
-                createToggleButton(fieldContainer, key, fieldId, value, parentElement);
+                createToggleButton(fieldContainer, key, fieldId, value);
             } else if (Array.isArray(value)) {
                 createArrayFields(fieldContainer, key, fieldId, value);
             } else {
@@ -22,40 +22,37 @@ function generateFormFields(jsonObject, parentElement, parentKey = '') {
     }
 }
 
-function createToggleButton(fieldContainer, key, fieldId, value, parentElement) {
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'Expandir';
-    toggleButton.setAttribute('type', 'button');
-    toggleButton.setAttribute('aria-label', `Expandir Objeto ${key}`);
-    toggleButton.addEventListener('click', function() {
+function createToggleButton(fieldContainer, key, fieldId, value) {
+    const toggleButton = createButton('Expandir', `Expandir Objeto ${key}`);
+    const nestedContainer = document.createElement('div');
+    nestedContainer.style.display = 'none';
+
+    toggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = toggleButton.textContent === 'Recolher';
         toggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
         toggleButton.setAttribute('aria-label', `${toggleButton.textContent} ${key}`);
         nestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
-    fieldContainer.appendChild(toggleButton);
 
-    const nestedContainer = document.createElement('div');
-    nestedContainer.style.display = 'none';
+    fieldContainer.appendChild(toggleButton);
     generateFormFields(value, nestedContainer, fieldId);
     fieldContainer.appendChild(nestedContainer);
 }
 
 function createArrayFields(fieldContainer, key, fieldId, value) {
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'Expandir';
-    toggleButton.setAttribute('type', 'button');
-    toggleButton.setAttribute('aria-label', `Expandir Lista ${key}`);
-    toggleButton.addEventListener('click', function() {
+    const toggleButton = createButton('Expandir', `Expandir Lista ${key}`);
+    const nestedContainer = document.createElement('div');
+    nestedContainer.style.display = 'none';
+
+    toggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = toggleButton.textContent === 'Recolher';
         toggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
         toggleButton.setAttribute('aria-label', `${toggleButton.textContent} Lista ${key}`);
         nestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
+
     fieldContainer.appendChild(toggleButton);
 
-    const nestedContainer = document.createElement('div');
-    nestedContainer.style.display = 'none';
     value.forEach((item, index) => {
         const arrayLabel = document.createElement('label');
         const arrayFieldId = `${fieldId}_${index}`;
@@ -68,25 +65,24 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
             createInputField(nestedContainer, arrayFieldId, item, `${key}[${index}]`);
         }
     });
+
     fieldContainer.appendChild(nestedContainer);
 }
 
 function createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId) {
     const itemContainer = document.createElement('div');
-    const itemToggleButton = document.createElement('button');
-    itemToggleButton.textContent = 'Expandir';
-    itemToggleButton.setAttribute('type', 'button');
-    itemToggleButton.setAttribute('aria-label', `Expandir Objeto ${key}[${index}]`);
-    itemToggleButton.addEventListener('click', function() {
+    const itemToggleButton = createButton('Expandir', `Expandir Objeto ${key}[${index}]`);
+    const itemNestedContainer = document.createElement('div');
+    itemNestedContainer.style.display = 'none';
+
+    itemToggleButton.addEventListener('click', function handleToggle() {
         const isExpanded = itemToggleButton.textContent === 'Recolher';
         itemToggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
         itemToggleButton.setAttribute('aria-label', `${itemToggleButton.textContent} ${key}[${index}]`);
         itemNestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
-    itemContainer.appendChild(itemToggleButton);
 
-    const itemNestedContainer = document.createElement('div');
-    itemNestedContainer.style.display = 'none';
+    itemContainer.appendChild(itemToggleButton);
     generateFormFields(item, itemNestedContainer, arrayFieldId);
     itemContainer.appendChild(itemNestedContainer);
     nestedContainer.appendChild(itemContainer);
@@ -100,7 +96,7 @@ function createInputField(fieldContainer, fieldId, value, key) {
         input.id = fieldId;
         input.checked = value;
         input.setAttribute('aria-label', `${key} ${value ? 'true' : 'false'}`);
-        input.addEventListener('change', function() {
+        input.addEventListener('change', function handleChange() {
             input.setAttribute('aria-label', `${key} ${input.checked ? 'true' : 'false'}`);
         });
     } else if (typeof value === 'number') {
@@ -109,7 +105,7 @@ function createInputField(fieldContainer, fieldId, value, key) {
         input.id = fieldId;
         input.value = value;
         input.setAttribute('pattern', '[0-9]*\\.?[0-9]*');
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function handleInput() {
             input.value = input.value.replace(/[^0-9.]/g, '');
         });
     } else {
@@ -119,4 +115,12 @@ function createInputField(fieldContainer, fieldId, value, key) {
         input.value = value;
     }
     fieldContainer.appendChild(input);
+}
+
+function createButton(text, ariaLabel) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.setAttribute('type', 'button');
+    button.setAttribute('aria-label', ariaLabel);
+    return button;
 }

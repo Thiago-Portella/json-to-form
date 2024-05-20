@@ -1,4 +1,7 @@
-document.getElementById('generateForm').addEventListener('click', function() {
+document.getElementById('generateForm').addEventListener('click', handleGenerateForm);
+document.getElementById('updateJson').addEventListener('click', handleUpdateJson);
+
+function handleGenerateForm() {
     const jsonInput = document.getElementById('jsonInput').value;
     try {
         const jsonObject = JSON.parse(jsonInput);
@@ -8,10 +11,10 @@ document.getElementById('generateForm').addEventListener('click', function() {
     } catch (e) {
         alert('JSON inválido');
     }
-});
+}
 
-document.getElementById('updateJson').addEventListener('click', function() {
+function handleUpdateJson() {
     const form = document.getElementById('jsonForm');
     const updatedJson = updateJsonFromForm(form);
     document.getElementById('jsonInput').value = JSON.stringify(updatedJson, null, 2);
-});
+}

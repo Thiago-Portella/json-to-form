@@ -6,13 +6,7 @@ function updateJsonFromForm(form) {
         let current = updatedJson;
         keys.forEach((key, index) => {
             if (index === keys.length - 1) {
-                if (element.type === 'checkbox') {
-                    current[key] = element.checked;
-                } else if (element.type === 'text' && element.getAttribute('pattern') === '[0-9]*\\.?[0-9]*') {
-                    current[key] = element.value.includes('.') ? parseFloat(element.value) : parseInt(element.value);
-                } else {
-                    current[key] = element.value;
-                }
+                current[key] = parseElementValue(element);
             } else {
                 if (!current[key]) {
                     current[key] = isNaN(keys[index + 1]) ? {} : [];
@@ -22,4 +16,14 @@ function updateJsonFromForm(form) {
         });
     });
     return updatedJson;
+}
+
+function parseElementValue(element) {
+    if (element.type === 'checkbox') {
+        return element.checked;
+    } else if (element.type === 'text' && element.getAttribute('pattern') === '[0-9]*\\.?[0-9]*') {
+        return element.value.includes('.') ? parseFloat(element.value) : parseInt(element.value);
+    } else {
+        return element.value;
+    }
 }
