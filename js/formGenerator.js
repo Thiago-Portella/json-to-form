@@ -52,21 +52,24 @@ function createArrayFields(fieldContainer, key, fieldId, value) {
     });
 
     fieldContainer.appendChild(toggleButton);
+    fieldContainer.appendChild(nestedContainer);
 
     value.forEach((item, index) => {
+        const arrayFieldContainer = document.createElement('div');
         const arrayLabel = document.createElement('label');
         const arrayFieldId = `${fieldId}__FIELD__${index}`;
         arrayLabel.setAttribute('for', arrayFieldId);
         arrayLabel.innerHTML = `<a href="#" class="edit-link" data-key="${arrayFieldId}">${key}[${index}]</a>`;
-        fieldContainer.appendChild(arrayLabel);
-        if (typeof item === 'object') {
-            createNestedArrayFields(fieldContainer, key, index, item, arrayFieldId);
-        } else {
-            createInputField(fieldContainer, arrayFieldId, item, `${key}[${index}]`);
-        }
-    });
+        arrayFieldContainer.appendChild(arrayLabel);
 
-    fieldContainer.appendChild(nestedContainer);
+        if (typeof item === 'object') {
+            createNestedArrayFields(arrayFieldContainer, key, index, item, arrayFieldId);
+        } else {
+            createInputField(arrayFieldContainer, arrayFieldId, item, `${key}[${index}]`);
+        }
+
+        nestedContainer.appendChild(arrayFieldContainer);
+    });
 }
 
 function createNestedArrayFields(nestedContainer, key, index, item, arrayFieldId) {
