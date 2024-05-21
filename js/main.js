@@ -1,3 +1,5 @@
+// js/main.js
+
 document.getElementById('generateForm').addEventListener('click', handleGenerateForm);
 document.getElementById('updateJson').addEventListener('click', handleUpdateJson);
 
@@ -9,6 +11,8 @@ function handleGenerateForm() {
         form.innerHTML = '';
         generateFormFields(jsonObject, form);
         addEditDeleteListeners();
+        addFieldCreationListeners();
+        createRootFieldButton(form);
     } catch (e) {
         alert('JSON inválido');
     }
@@ -95,4 +99,39 @@ function updateButtonLabels(container, oldKey, newKey) {
             button.textContent = button.textContent.replace(oldKey, newKey);
         }
     });
+}
+
+function addFieldCreationListeners() {
+    document.querySelectorAll('.add-field-button').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const parentKey = button.dataset.parentKey;
+            const parentElement = button.closest('div');
+            createFieldCreationSection(parentElement, parentKey);
+        });
+    });
+}
+
+function createRootFieldButton(form) {
+    // Verifica se o botão já existe
+    if (!document.getElementById('createRootFieldButton')) {
+        const rootButton = document.createElement('button');
+        rootButton.textContent = 'Criar novo campo em root';
+        rootButton.id = 'createRootFieldButton';
+        rootButton.type = 'button';
+        rootButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            toggleFieldCreationSection(form);
+        });
+        form.appendChild(rootButton);
+    }
+}
+
+function toggleFieldCreationSection(parentElement) {
+    let section = parentElement.querySelector('.field-creation-section');
+    if (section) {
+        section.remove();
+    } else {
+        createFieldCreationSection(parentElement);
+    }
 }
