@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON to Form</title>
+    <title>Form Generator</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>JSON to Form</h1>
-        <textarea id="jsonInput" placeholder="Cole seu JSON aqui"></textarea>
+    <div>
+        <textarea id="jsonInput" placeholder="Insira o JSON aqui"></textarea>
         <button id="generateForm">Gerar Formulário</button>
-        <form id="jsonForm"></form>
         <button id="updateJson">Atualizar JSON</button>
     </div>
-    <script src="js/formGenerator.js"></script>
-    <script src="js/jsonUpdater.js"></script>
-    <script src="js/fieldCreator.js"></script>
-    <script src="js/fieldHandlers.js"></script>
-    <script src="js/main.js"></script>
+    <form id="jsonForm"></form>
+    <div id="LOG_LEVEL"></div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

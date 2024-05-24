@@ -1,6 +1,7 @@
-function updateJsonFromForm(form) {
+// components/jsonUpdater.js
+export function updateJsonFromForm(form) {
     const updatedJson = {};
-    const elements = form.querySelectorAll('input');
+    const elements = form.querySelectorAll('input, select, textarea');
     elements.forEach(element => {
         const keys = element.id.split('__FIELD__');
         let current = updatedJson;
