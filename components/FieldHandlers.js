@@ -17,9 +17,10 @@ export function addEditDeleteListeners() {
             event.preventDefault();
             const fieldId = link.dataset.key;
             const fieldElement = document.getElementById(fieldId);
-            const newValue = prompt('Editar valor:', fieldElement.value);
-            if (newValue !== null) {
-                fieldElement.value = newValue;
+            const newFieldKey = prompt('Editar nome do campo:', fieldElement.value);
+            if (newFieldKey !== null) {
+                fieldElement.value = newFieldKey;
+                updateFieldIds(document.getElementById('jsonForm'));
             }
         });
     });
@@ -29,7 +30,10 @@ export function addEditDeleteListeners() {
             event.preventDefault();
             const fieldId = link.dataset.key;
             const fieldElement = document.getElementById(fieldId);
-            fieldElement.closest('div').remove();
+            if (confirm(`Deseja realmente deletar o campo ${fieldId}?`)) {
+                fieldElement.closest('div').remove();
+                updateFieldIds(document.getElementById('jsonForm'));
+            }
         });
     });
 }

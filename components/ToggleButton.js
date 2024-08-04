@@ -4,7 +4,7 @@ export function createToggleButton(text, parentKey, onClick) {
     const button = document.createElement('button');
     button.textContent = `${text} ${parentKey}`;
     button.setAttribute('type', 'button');
-    button.setAttribute('aria-label', button.textContent);
+    button.setAttribute('aria-label', button.'textContent);
     button.addEventListener('click', onClick);
     return button;
 }

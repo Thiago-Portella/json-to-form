@@ -1,4 +1,5 @@
 /* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -113,4 +114,25 @@ form input[type="checkbox"] + label {
     textarea, form input, form textarea {
         font-size: 14px;
     }
+}
+
+.edit-delete-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.edit-delete-buttons button {
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-delete-buttons button:hover {
+    background-color: #0056b3;
 }
