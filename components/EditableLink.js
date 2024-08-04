@@ -1,5 +1,3 @@
-import { logMessage } from './LogLevelComponent.js';
-
 // components/EditableLink.js
 export function createEditableLink(fieldId, text) {
     const link = document.createElement('a');
@@ -30,10 +28,9 @@ export function createEditableLink(fieldId, text) {
             editButton.addEventListener('click', function () {
                 const newName = prompt('Digite o novo nome do campo:', text);
                 if (newName) {
-                    document.querySelectorAll(fieldId).forEach(element => {
-                        logMessage(`Trocando o texto ${element.textContent} para ${newName}`);
+                    console.log(fieldId);
+                    document.querySelectorAll(`[data-key=${fieldId}]`).forEach(element => {
                         element.textContent = newName;
-                        logMessage(`Conteúdo da aria-label do elemento: ${element.getAttribute('aria-label')}.`);
                         element.setAttribute('aria-label', newName);
                         element.dataset.key = newDataSetKey(fieldId, newName);
                     });
@@ -51,9 +48,7 @@ export function createEditableLink(fieldId, text) {
 }
 
 function newDataSetKey(current, newKey) {
-    logMessage(`Parâmetros de entrada: current: ${current}, newKey: ${newKey}`);
     const oldDataSetKeyEnd = current.split('__FIELD__').pop();
     const newDataSetKey = current.split(oldDataSetKeyEnd)[0] + newKey;
-    logMessage(`Novo valor do data-set-key: ${newDataSetKey}`);
     return newDataSetKey;
 }

@@ -31,7 +31,7 @@ function handleGenerateForm(jsonInput, form) {
         logMessage('Conteúdo do formulário apagado.');
         logMessage('Gerando novos campos no formulário. Enviando objeto json e formulário html.');
         
-        generateFormFields(jsonObject, form);
+        generateFormFields(jsonObject, form, 'root');
     } catch (e) {
         alert('JSON inválido');
         logMessage('Erro ao tentar obter conteúdo do json: ' + e);
