@@ -1,9 +1,11 @@
 // components/InputField.js
+import RuntimeDatabase from './runtimeDatabase.js';
 import { createTextField } from './TextField.js';
 import { createNumberField } from './NumberField.js';
 import { createCheckboxField } from './CheckboxField.js';
 
 export function createInputField(fieldId, value, type) {
+    RuntimeDatabase.create(fieldId);
     let input;
     switch (type) {
         case 'boolean':

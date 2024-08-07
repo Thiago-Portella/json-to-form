@@ -1,8 +1,10 @@
 // components/CreateObjectField.js
+import RuntimeDatabase from './runtimeDatabase.js';
 import { createToggleButton } from './ToggleButton.js';
 import { generateFormFields } from './formGenerator.js';
 
 export function createObjectFields(parentElement, parentKey, value) {
+    RuntimeDatabase.create(parentKey);
     const fieldContainer = document.createElement('div');
     fieldContainer.classList.add('object-field-container');
 
