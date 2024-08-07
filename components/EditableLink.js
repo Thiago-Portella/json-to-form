@@ -1,4 +1,6 @@
 // components/EditableLink.js
+import RuntimeDatabase from './runtimeDatabase.js';
+
 export function createEditableLink(fieldId, text) {
     const link = document.createElement('a');
     link.href = '#';
@@ -25,17 +27,18 @@ export function createEditableLink(fieldId, text) {
 
             const editButton = document.createElement('button');
             editButton.textContent = 'Trocar Nome';
-            editButton.addEventListener('click', function () {
-                const newName = prompt('Digite o novo nome do campo:', text);
+            editButton.addEventListener('click', function firstClick () {
+                const updatedFieldId = returnCorrectField(fieldId);
+                const updatedText = updatedFieldId.split('__FIELD__').pop();
+                const newName = prompt('Digite o novo nome do campo:', updatedText);
                 if (newName) {
-                    console.log(fieldId);
-                    document.querySelectorAll(`[data-key=${fieldId}]`).forEach(element => {
-                        element.textContent = newName;
-                        element.setAttribute('aria-label', newName);
-                        element.dataset.key = newDataSetKey(fieldId, newName);
+                    document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
+                    let newFieldId = newElementInfos(element, updatedFieldId, newName);
+                        RuntimeDatabase.update(fieldId, )
                     });
                     buttonDiv.remove();
                 }
+                editButton.removeEventListener('click', firstClick);
             });
 
             buttonDiv.appendChild(deleteButton);
@@ -47,8 +50,15 @@ export function createEditableLink(fieldId, text) {
     return link;
 }
 
-function newDataSetKey(current, newKey) {
-    const oldDataSetKeyEnd = current.split('__FIELD__').pop();
-    const newDataSetKey = current.split(oldDataSetKeyEnd)[0] + newKey;
+function newElementInfos(element, oldFieldId, newName) {
+    element.textContent = newName;
+    element.setAttribute('aria-label', newName);
+    const oldDataSetKeyEnd = oldFieldId.split('__FIELD__').pop();
+    const newDataSetKey = oldFieldId.split(oldDataSetKeyEnd)[0] + newName;
+    element.dataset.key = newDataSetKey;
     return newDataSetKey;
+}
+
+function returnCorrectField(fieldId) {
+    return RuntimeDatabase.read(fieldId);
 }
