@@ -34,7 +34,7 @@ function handleGenerateForm(jsonInput, form) {
         generateFormFields(jsonObject, form, 'root');
     } catch (e) {
         alert('JSON inválido');
-        logMessage('Erro ao tentar obter conteúdo do json: ' + e);
+        console.error(e);
     }
 }
 

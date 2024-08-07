@@ -1,7 +1,7 @@
 // components/EditableLink.js
 import RuntimeDatabase from './runtimeDatabase.js';
 
-export function createEditableLink(fieldId, text) {
+export function createEditableLink(fieldId, text, isIndex) {
     const link = document.createElement('a');
     link.href = '#';
     link.classList.add('edit-link');
@@ -24,25 +24,29 @@ export function createEditableLink(fieldId, text) {
                     link.closest('div').remove();
                 }
             });
+            
+            if (isIndex === true) {
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Trocar Nome';
+                editButton.addEventListener('click', function firstClick() {
+                    const updatedFieldId = returnCorrectField(fieldId);
+                    const updatedText = updatedFieldId.split('__FIELD__').pop();
+                    const newName = prompt('Digite o novo nome do campo:', updatedText);
+                    if (newName) {
+                        document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
+                            let newFieldId = newElementInfos(element, updatedFieldId, newName);
+                            RuntimeDatabase.update(fieldId,)
+                        });
+                        buttonDiv.remove();
+                    }
+                    editButton.removeEventListener('click', firstClick);
+                });
 
-            const editButton = document.createElement('button');
-            editButton.textContent = 'Trocar Nome';
-            editButton.addEventListener('click', function firstClick () {
-                const updatedFieldId = returnCorrectField(fieldId);
-                const updatedText = updatedFieldId.split('__FIELD__').pop();
-                const newName = prompt('Digite o novo nome do campo:', updatedText);
-                if (newName) {
-                    document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
-                    let newFieldId = newElementInfos(element, updatedFieldId, newName);
-                        RuntimeDatabase.update(fieldId, )
-                    });
-                    buttonDiv.remove();
-                }
-                editButton.removeEventListener('click', firstClick);
-            });
-
-            buttonDiv.appendChild(deleteButton);
-            buttonDiv.appendChild(editButton);
+                buttonDiv.appendChild(deleteButton);
+                buttonDiv.appendChild(editButton);
+            } else {
+                buttonDiv.appendChild(deleteButton);
+            }
             link.parentNode.insertBefore(buttonDiv, link.nextSibling);
         }
     });

@@ -12,7 +12,7 @@ export function generateFormFields(jsonObject, parentElement, parentKey = '') {
         if (jsonObject.hasOwnProperty(key)) {
             const value = jsonObject[key];
             const fieldContainer = document.createElement('div');
-            const label = createLabel(`${parentKey}__FIELD__${key}`, key);
+        const label = createLabel(`${parentKey}__FIELD__${key}`, key);
             fieldContainer.appendChild(label);
 
             let input;

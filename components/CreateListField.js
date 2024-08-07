@@ -5,6 +5,7 @@ import { createNumberField } from './NumberField.js';
 import { createCheckboxField } from './CheckboxField.js';
 import { createObjectFields } from './CreateObjectField.js';
 import { createInputField } from './InputField.js';
+import { createLabel } from './Label.js';
 
 export function createListFields(parentElement, parentKey, value) {
     const fieldContainer = document.createElement('div');
@@ -25,10 +26,8 @@ export function createListFields(parentElement, parentKey, value) {
 
     value.forEach((item, index) => {
         const arrayFieldContainer = document.createElement('div');
-        const arrayLabel = document.createElement('label');
-        const arrayFieldId = `${parentKey}__FIELD__${index}`;
-        arrayLabel.setAttribute('for', arrayFieldId);
-        arrayLabel.innerHTML = `<a href="#" class="edit-link" data-key="${arrayFieldId}">${parentKey}[${index}]</a>`;
+        const arrayFieldId = `${parentKey}${index}`;
+        const arrayLabel = createLabel(arrayFieldId, `${arrayFieldId.split('__FIELD__').pop()}`, true);
         arrayFieldContainer.appendChild(arrayLabel);
 
         let input;
