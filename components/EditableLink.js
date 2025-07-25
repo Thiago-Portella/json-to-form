@@ -35,7 +35,7 @@ export function createEditableLink(fieldId, text, isIndex) {
                     if (newName) {
                         document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
                             let newFieldId = newElementInfos(element, updatedFieldId, newName);
-                            RuntimeDatabase.update(fieldId,)
+                            RuntimeDatabase.update(fieldId, newFieldId);
                         });
                         buttonDiv.remove();
                     }

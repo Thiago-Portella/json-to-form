@@ -1,5 +1,9 @@
 // components/FieldCreationSection.js
 import { createButton } from './Button.js';
+import { createLabel } from './Label.js';
+import { createInputField } from './InputField.js';
+import { createObjectFields } from './CreateObjectField.js';
+import { createListFields } from './CreateListField.js';
 
 export function createFieldCreationSection(parentElement, parentKey = '') {
     const section = document.createElement('div');
@@ -7,7 +11,7 @@ export function createFieldCreationSection(parentElement, parentKey = '') {
 
     const typeSelect = createTypeSelect();
     const nameInput = createNameInput();
-    const saveButton = createButton('Salvar', 'Salvar campo', () => {
+    const saveButton = createButton('Salvar', (event) => {
         event.preventDefault();
         const fieldType = typeSelect.value;
         const fieldName = nameInput.value.trim();
@@ -18,7 +22,7 @@ export function createFieldCreationSection(parentElement, parentKey = '') {
             alert('Nome do campo não pode estar vazio');
         }
     });
-    const cancelButton = createButton('Cancelar', 'Cancelar criação', () => {
+    const cancelButton = createButton('Cancelar', () => {
         section.remove();
     });
 
@@ -47,4 +51,38 @@ function createNameInput() {
     nameInput.type = 'text';
     nameInput.placeholder = 'Nome do campo';
     return nameInput;
+}
+
+export function addFieldToForm(parentElement, parentKey, fieldName, fieldType) {
+    const container = document.createElement('div');
+    const fieldId = parentKey ? `${parentKey}__FIELD__${fieldName}` : fieldName;
+    const label = createLabel(fieldId, fieldName);
+    container.appendChild(label);
+
+    let input;
+    switch (fieldType) {
+        case 'boolean':
+            input = createInputField(fieldId, false, 'boolean');
+            break;
+        case 'number':
+            input = createInputField(fieldId, 0, 'number');
+            break;
+        case 'string':
+            input = createInputField(fieldId, '', 'string');
+            break;
+        case 'object':
+            createObjectFields(container, fieldId, {});
+            break;
+        case 'list':
+            createListFields(container, fieldId, []);
+            break;
+        default:
+            input = createInputField(fieldId, '', 'string');
+    }
+
+    if (input) {
+        container.appendChild(input);
+    }
+
+    parentElement.appendChild(container);
 }

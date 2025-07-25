@@ -43,9 +43,9 @@ export function generateFormFields(jsonObject, parentElement, parentKey = '') {
 }
 
 function createAddFieldButton(parentElement, parentKey) {
-    const addButton = createButton(`Adicionar novo campo em ${parentKey || 'root'}`, () => {
+    const addButton = createButton(`Adicionar novo campo em ${parentKey || 'root'}`, (event) => {
         event.preventDefault();
-        createFieldCreationSection(parentElement, parentKey);Element
+        createFieldCreationSection(parentElement, parentKey);
     });
     parentElement.appendChild(addButton);
 }
