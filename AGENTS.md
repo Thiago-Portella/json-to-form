@@ -34,14 +34,6 @@ The main functionalities are:
   - `LogLevelComponent.js` – Simple in-browser logging facility.
   - `runtimeDatabase.js` – Tiny runtime key/value store (create/read/update/getAll) used to cache ids of fields.
 
-## Known Issues
-
-- `createButton` now accepts only `(text, onClick)`, but `FieldCreationSection.js` and `CreateEmptyListField.js` still call it with three parameters. The extra argument is ignored and may indicate outdated code.
-- `FieldCreationSection.js` references `addFieldToForm` which is not defined anywhere in the current codebase, so adding new fields is likely broken.
-- `CreateListField.js` uses `createFieldCreationSection` but lacks an import statement.
-- `EditableLink.js` attempts `RuntimeDatabase.update(fieldId,)` without providing the new value. This will throw an error when executed.
-- Many click handlers rely on the global `event` variable rather than receiving the event object as an argument.
-
 ## Usage
 
 Open `index.html` in a browser. Enter a JSON document in the textarea and click **Gerar Formulário** to view the generated form. After editing, press **Atualizar JSON** to see the updated JSON in the textarea. The optional log area (#LOG_LEVEL) displays debug messages.
