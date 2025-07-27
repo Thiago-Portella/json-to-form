@@ -26,13 +26,13 @@ export function createListFields(parentElement, parentKey, value) {
 
     value.forEach((item, index) => {
         const arrayFieldContainer = document.createElement('div');
-        const arrayFieldId = `${parentKey}${index}`;
-        const arrayLabel = createLabel(arrayFieldId, `${arrayFieldId.split('__FIELD__').pop()}`, true);
+        const arrayFieldId = `${parentKey}__FIELD__${index}`;
+        const arrayLabel = createLabel(arrayFieldId, `${index}`, true);
         arrayFieldContainer.appendChild(arrayLabel);
 
         let input;
         if (typeof item === 'object') {
-            createObjectFields(arrayFieldContainer, `${parentKey}[${index}]`, item);
+            createObjectFields(arrayFieldContainer, `${parentKey}__FIELD__${index}`, item);
         } else {
             input = createInputField(arrayFieldId, item, typeof item);
             arrayFieldContainer.appendChild(input);
