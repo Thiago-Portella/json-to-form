@@ -33,8 +33,10 @@ export function createEditableLink(fieldId, text, isIndex) {
                     const updatedText = currentId.split('__FIELD__').pop();
                     const newName = prompt('Digite o novo nome do campo:', updatedText);
                     if (newName) {
-                        renameListItem(link.closest('div'), currentId, newName);
-                        RuntimeDatabase.update(fieldId, currentId.replace(updatedText, newName));
+                        document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
+                            let newFieldId = newElementInfos(element, updatedFieldId, newName);
+                            RuntimeDatabase.update(fieldId, newFieldId);
+                        });
                         buttonDiv.remove();
                     }
                     editButton.removeEventListener('click', firstClick);

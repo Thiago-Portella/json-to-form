@@ -6,6 +6,7 @@ import { createCheckboxField } from './CheckboxField.js';
 import { createObjectFields } from './CreateObjectField.js';
 import { createInputField } from './InputField.js';
 import { createLabel } from './Label.js';
+import { createFieldCreationSection } from './FieldCreationSection.js';
 
 export function createListFields(parentElement, parentKey, value) {
     const fieldContainer = document.createElement('div');
@@ -50,7 +51,7 @@ function createAddFieldButton(parentElement, parentKey) {
     const addButton = document.createElement('button');
     addButton.type = 'button';
     addButton.textContent = `Adicionar novo campo em ${parentKey || 'root'}`;
-    addButton.addEventListener('click', () => {
+    addButton.addEventListener('click', (event) => {
         event.preventDefault();
         createFieldCreationSection(parentElement, parentKey);
     });
