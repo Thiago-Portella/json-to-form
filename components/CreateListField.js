@@ -32,7 +32,7 @@ export function createListFields(parentElement, parentKey, value) {
 
         let input;
         if (typeof item === 'object') {
-            createObjectFields(arrayFieldContainer, `${parentKey}__FIELD__${index}`, item);
+            createObjectFields(arrayFieldContainer, arrayFieldId, item);
         } else {
             input = createInputField(arrayFieldId, item, typeof item);
             arrayFieldContainer.appendChild(input);
