@@ -12,23 +12,24 @@ export function generateFormFields(jsonObject, parentElement, parentKey = '') {
         if (jsonObject.hasOwnProperty(key)) {
             const value = jsonObject[key];
             const fieldContainer = document.createElement('div');
-        const label = createLabel(`${parentKey}__FIELD__${key}`, key);
+            const fieldId = parentKey ? `${parentKey}__FIELD__${key}` : key;
+            const label = createLabel(fieldId, key);
             fieldContainer.appendChild(label);
 
             let input;
             if (typeof value === 'boolean') {
-                input = createInputField(`${parentKey}__FIELD__${key}`, value, 'boolean');
+                input = createInputField(fieldId, value, 'boolean');
             } else if (typeof value === 'number') {
-                input = createInputField(`${parentKey}__FIELD__${key}`, value, 'number');
+                input = createInputField(fieldId, value, 'number');
             } else if (typeof value === 'string') {
-                input = createInputField(`${parentKey}__FIELD__${key}`, value, 'string');
+                input = createInputField(fieldId, value, 'string');
             } else if (typeof value === 'object' && !Array.isArray(value)) {
-                createObjectFields(fieldContainer, `${parentKey}__FIELD__${key}`, value);
+                createObjectFields(fieldContainer, fieldId, value);
             } else if (Array.isArray(value)) {
                 if (value.length > 0) {
-                    createListFields(fieldContainer, `${parentKey}__FIELD__${key}`, value);
+                    createListFields(fieldContainer, fieldId, value);
                 } else {
-                    createEmptyListField(fieldContainer, `${parentKey}__FIELD__${key}`);
+                    createEmptyListField(fieldContainer, fieldId);
                 }
             }
 
