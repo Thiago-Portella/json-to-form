@@ -50,7 +50,8 @@ export function createListFields(parentElement, parentKey, value) {
 function createAddFieldButton(parentElement, parentKey) {
     const addButton = document.createElement('button');
     addButton.type = 'button';
-    addButton.textContent = `Adicionar novo campo em ${parentKey || 'root'}`;
+    const displayName = parentKey ? parentKey.split('__FIELD__').pop() : 'root';
+    addButton.textContent = `Adicionar novo campo em ${displayName}`;
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
         createFieldCreationSection(parentElement, parentKey);
