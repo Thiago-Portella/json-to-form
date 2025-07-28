@@ -54,6 +54,7 @@ export function updateButtonLabels(parentElement) {
     const buttons = parentElement.querySelectorAll('button');
     buttons.forEach(button => {
         const parentKey = button.dataset.parentKey;
-        button.textContent = `Adicionar novo campo em ${parentKey || 'root'}`;
+        const displayName = parentKey ? parentKey.split('__FIELD__').pop() : 'root';
+        button.textContent = `Adicionar novo campo em ${displayName}`;
     });
 }
