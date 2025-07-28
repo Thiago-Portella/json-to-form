@@ -30,11 +30,12 @@ export function createEditableLink(fieldId, text, isIndex) {
                 editButton.textContent = 'Trocar Nome';
                 editButton.addEventListener('click', function firstClick() {
                     const currentId = returnCorrectField(fieldId);
+                    const updatedFieldId = currentId;
                     const updatedText = currentId.split('__FIELD__').pop();
                     const newName = prompt('Digite o novo nome do campo:', updatedText);
                     if (newName) {
                         document.querySelectorAll(`[data-key=${updatedFieldId}]`).forEach(element => {
-                            let newFieldId = newElementInfos(element, updatedFieldId, newName);
+                            let newFieldId = updateElementIds(element.closest('div'), updatedFieldId, newName);
                             RuntimeDatabase.update(fieldId, newFieldId);
                         });
                         buttonDiv.remove();
@@ -54,7 +55,7 @@ export function createEditableLink(fieldId, text, isIndex) {
     return link;
 }
 
-function renameListItem(container, oldFieldId, newName) {
+function updateElementIds(container, oldFieldId, newName) {
     const parentPath = oldFieldId.split('__FIELD__').slice(0, -1).join('__FIELD__');
     const newFieldId = `${parentPath}__FIELD__${newName}`;
 
