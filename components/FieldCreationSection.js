@@ -1,4 +1,5 @@
 // components/FieldCreationSection.js
+// Builds the form section used to create new fields
 import { createButton } from './Button.js';
 import { createLabel } from './Label.js';
 import { createInputField } from './InputField.js';

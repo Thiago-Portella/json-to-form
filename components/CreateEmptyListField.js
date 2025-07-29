@@ -1,4 +1,5 @@
 // components/CreateEmptyListField.js
+// UI helper for adding the first item to an empty list
 import { createButton } from './Button.js';
 import { createFieldCreationSection } from './FieldCreationSection.js';
 

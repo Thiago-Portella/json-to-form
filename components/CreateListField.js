@@ -1,4 +1,5 @@
 // components/CreateListField.js
+// Renders list fields and maintains their item type
 import { createToggleButton } from './ToggleButton.js';
 import { createTextField } from './TextField.js';
 import { createNumberField } from './NumberField.js';
