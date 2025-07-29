@@ -25,7 +25,7 @@ export function createEditableLink(fieldId, text, isIndex) {
                 }
             });
             
-            if (isIndex === true) {
+            if (isIndex === false) {
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Trocar Nome';
                 editButton.addEventListener('click', function firstClick() {
