@@ -44,7 +44,8 @@ export function generateFormFields(jsonObject, parentElement, parentKey = '') {
 }
 
 function createAddFieldButton(parentElement, parentKey) {
-    const displayName = parentKey ? parentKey.split('__FIELD__').pop() : 'root';
+    const dottedPath = parentKey.split('__FIELD__').join('.');
+    const displayName = dottedPath || 'root';
     const addButton = createButton(`Adicionar novo campo em ${displayName}`, (event) => {
         event.preventDefault();
         createFieldCreationSection(parentElement, parentKey);

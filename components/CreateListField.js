@@ -13,10 +13,11 @@ export function createListFields(parentElement, parentKey, value) {
     const fieldContainer = document.createElement('div');
     fieldContainer.classList.add('list-field-container');
 
+    const displayName = parentKey.split('__FIELD__').join('.');
     const toggleButton = createToggleButton('Expandir Lista', parentKey, function handleToggle() {
         const isExpanded = toggleButton.textContent === 'Recolher';
         toggleButton.textContent = isExpanded ? 'Expandir' : 'Recolher';
-        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} lista ${parentKey.split('__FIELD__').pop()}`);
+        toggleButton.setAttribute('aria-label', `${toggleButton.textContent} lista ${displayName}`);
         nestedContainer.style.display = isExpanded ? 'none' : 'block';
     });
 
@@ -57,7 +58,8 @@ export function createListFields(parentElement, parentKey, value) {
 function createAddFieldButton(parentElement, parentKey) {
     const addButton = document.createElement('button');
     addButton.type = 'button';
-    const displayName = parentKey ? parentKey.split('__FIELD__').pop() : 'root';
+    const dottedPath = parentKey.split('__FIELD__').join('.');
+    const displayName = dottedPath || 'root';
     addButton.textContent = `Adicionar novo campo em ${displayName}`;
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
