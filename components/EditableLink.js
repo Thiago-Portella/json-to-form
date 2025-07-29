@@ -1,5 +1,6 @@
 // components/EditableLink.js
 import RuntimeDatabase from './runtimeDatabase.js';
+import { logMessage } from './LogLevelComponent.js';
 
 export function createEditableLink(fieldId, text, isIndex) {
     const link = document.createElement('a');
@@ -22,10 +23,11 @@ export function createEditableLink(fieldId, text, isIndex) {
             deleteButton.addEventListener('click', function () {
                 if (confirm(`Deseja realmente deletar o campo ${text}?`)) {
                     link.closest('div').remove();
+                    logMessage(`Campo ${text} deletado`);
                 }
             });
             
-            if (isIndex === true) {
+            if (isIndex === false) {
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Trocar Nome';
                 editButton.addEventListener('click', function firstClick() {
@@ -38,6 +40,7 @@ export function createEditableLink(fieldId, text, isIndex) {
                             let newFieldId = updateElementIds(element.closest('div'), updatedFieldId, newName);
                             RuntimeDatabase.update(fieldId, newFieldId);
                         });
+                        logMessage(`Campo ${updatedText} renomeado para ${newName}`);
                         buttonDiv.remove();
                     }
                     editButton.removeEventListener('click', firstClick);
