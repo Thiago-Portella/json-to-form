@@ -1,5 +1,8 @@
 // components/jsonUpdater.js
+import { logMessage } from './LogLevelComponent.js';
+
 export function updateJsonFromForm(form) {
+    logMessage('Iniciando atualização do JSON');
     const updatedJson = {};
     const elements = form.querySelectorAll('input, select, textarea');
     elements.forEach(element => {
@@ -16,6 +19,7 @@ export function updateJsonFromForm(form) {
             }
         });
     });
+    logMessage('JSON atualizado com sucesso');
     return updatedJson;
 }
 

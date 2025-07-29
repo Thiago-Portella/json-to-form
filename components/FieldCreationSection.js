@@ -4,10 +4,14 @@ import { createLabel } from './Label.js';
 import { createInputField } from './InputField.js';
 import { createObjectFields } from './CreateObjectField.js';
 import { createListFields } from './CreateListField.js';
+import { logMessage } from './LogLevelComponent.js';
 
 export function createFieldCreationSection(parentElement, parentKey = '') {
     const section = document.createElement('div');
     section.classList.add('field-creation-section');
+
+    const localName = parentKey ? parentKey.split('__FIELD__').pop() : 'root';
+    logMessage(`Abrindo seção de criação em ${localName}`);
 
     const typeSelect = createTypeSelect();
     const nameInput = createNameInput();
@@ -17,12 +21,15 @@ export function createFieldCreationSection(parentElement, parentKey = '') {
         const fieldName = nameInput.value.trim();
         if (fieldName) {
             addFieldToForm(parentElement, parentKey, fieldName, fieldType);
+            logMessage(`Campo ${fieldName} criado em ${localName}`);
             section.remove();
         } else {
+            logMessage('Erro ao criar campo: nome vazio');
             alert('Nome do campo não pode estar vazio');
         }
     });
     const cancelButton = createButton('Cancelar', () => {
+        logMessage('Criação de campo cancelada');
         section.remove();
     });
 
