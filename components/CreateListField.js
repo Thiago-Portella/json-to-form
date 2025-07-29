@@ -7,6 +7,7 @@ import { createObjectFields } from './CreateObjectField.js';
 import { createInputField } from './InputField.js';
 import { createLabel } from './Label.js';
 import { createFieldCreationSection } from './FieldCreationSection.js';
+import { logMessage } from './LogLevelComponent.js';
 
 export function createListFields(parentElement, parentKey, value) {
     const fieldContainer = document.createElement('div');
@@ -21,6 +22,11 @@ export function createListFields(parentElement, parentKey, value) {
 
     const nestedContainer = document.createElement('div');
     nestedContainer.style.display = 'none';
+    nestedContainer.addEventListener('click', (event) => {
+        if (event.target.textContent === 'Deletar') {
+            logMessage(`Item removido de ${parentKey.split('__FIELD__').pop()}`);
+        }
+    });
 
     fieldContainer.appendChild(toggleButton);
     fieldContainer.appendChild(nestedContainer);
@@ -40,6 +46,7 @@ export function createListFields(parentElement, parentKey, value) {
         }
 
         nestedContainer.appendChild(arrayFieldContainer);
+        logMessage(`Item ${index} adicionado em ${parentKey.split('__FIELD__').pop()}`);
     });
 
     createAddFieldButton(nestedContainer, parentKey);
@@ -54,6 +61,7 @@ function createAddFieldButton(parentElement, parentKey) {
     addButton.textContent = `Adicionar novo campo em ${displayName}`;
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
+        logMessage(`Adicionar novo item em ${displayName}`);
         createFieldCreationSection(parentElement, parentKey);
     });
     parentElement.appendChild(addButton);
