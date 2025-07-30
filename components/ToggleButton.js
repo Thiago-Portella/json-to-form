@@ -2,9 +2,9 @@
 import { logMessage } from './LogLevelComponent.js';
 
 export function createToggleButton(text, parentKey, onClick) {
-    parentKey = parentKey.split('__FIELD__').pop();
+    const displayName = parentKey.split('__FIELD__').join('.');
     const button = document.createElement('button');
-    button.textContent = `${text} ${parentKey}`;
+    button.textContent = `${text} ${displayName}`;
     button.setAttribute('type', 'button');
     button.setAttribute('aria-label', button.textContent);
     const tipo = text.toLowerCase().includes('lista') ? 'lista' : 'objeto';
