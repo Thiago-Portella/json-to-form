@@ -1,4 +1,5 @@
 // components/CreateListField.js
+// Renders list fields and maintains their item type
 import { createToggleButton } from './ToggleButton.js';
 import { createTextField } from './TextField.js';
 import { createNumberField } from './NumberField.js';
@@ -23,6 +24,21 @@ export function createListFields(parentElement, parentKey, value) {
 
     const nestedContainer = document.createElement('div');
     nestedContainer.style.display = 'none';
+    if (value.length > 0) {
+        const firstItem = value[0];
+        let itemType;
+        if (Array.isArray(firstItem)) {
+            itemType = 'list';
+        } else if (typeof firstItem === 'object') {
+            itemType = 'object';
+        } else {
+            itemType = typeof firstItem;
+        }
+        nestedContainer.dataset.itemType = itemType;
+    } else {
+        nestedContainer.dataset.itemType = '';
+    }
+
     nestedContainer.addEventListener('click', (event) => {
         if (event.target.textContent === 'Deletar') {
             logMessage(`Item removido de ${parentKey.split('__FIELD__').pop()}`);
@@ -64,7 +80,7 @@ function createAddFieldButton(parentElement, parentKey) {
     addButton.addEventListener('click', (event) => {
         event.preventDefault();
         logMessage(`Adicionar novo item em ${displayName}`);
-        createFieldCreationSection(parentElement, parentKey);
+        createFieldCreationSection(parentElement, parentKey, parentElement.dataset.itemType || null);
     });
     parentElement.appendChild(addButton);
 }
