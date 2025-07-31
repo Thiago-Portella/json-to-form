@@ -1,42 +1,47 @@
-# Repository Overview
+# Visão Geral do Repositório
 
-This project provides a web-based tool that converts JSON objects into editable HTML forms. It lets users view, modify and generate updated JSON from the form. The repository contains only client-side code written in **HTML**, **CSS**, and **JavaScript** using ES module syntax.
+Este projeto fornece uma ferramenta web que converte objetos JSON em formulários HTML editáveis. Ela permite que os usuários visualizem, modifiquem e gerem JSON atualizado a partir do formulário. O repositório contém apenas código do lado do cliente escrito em **HTML**, **CSS** e **JavaScript** usando a sintaxe do módulo ES.
 
-The main functionalities are:
-- Parse a JSON string into a nested form structure (objects, arrays and primitive values).
-- Allow editing each field via text/number/checkbox inputs.
-- Expand or collapse objects and lists with accessible labels.
-- Add or remove fields through UI controls.
-- After editing, convert the form back to JSON.
+As principais funcionalidades são:
+- Analisar uma string JSON em uma estrutura de formulário aninhada (objetos, arrays e valores primitivos).
+- Permitir a edição de cada campo por meio de entradas de texto/número/caixa de seleção.
+- Expandir ou recolher objetos e listas com rótulos acessíveis.
+- Adicionar ou remover campos por meio de controles de interface do usuário.
+- Após a edição, converter o formulário novamente para JSON.
 
-## Project Structure
+## Estrutura do Projeto
 
-- **index.html** – Static HTML page with a textarea for JSON, buttons to generate or update the form, a `<form>` container and a log area.
-- **main.js** – Entry point that waits for `DOMContentLoaded` and calls `initializeForm` from `components/FormInitializer.js`.
-- **css/styles.css** – Styles for the page and form controls.
-- **components/** – Collection of ES modules implementing all UI elements and helpers:
-  - `Button.js` – Utility to create a `<button>` element (`createButton(text, onClick)`).
-  - `CheckboxField.js` – Builds a checkbox input field.
-  - `NumberField.js` – Builds an input restricted to numeric values.
-  - `TextField.js` – Builds a standard text input field.
-  - `InputField.js` – Chooses which of the above field types to create based on a value type and registers the id in `runtimeDatabase`.
-  - `ToggleButton.js` – Creates buttons used to expand/collapse lists and objects with accessible labels.
-  - `CreateObjectField.js` – Generates nested forms for object values.
-  - `CreateListField.js` – Generates nested forms for array values and includes a helper to append new list entries.
-  - `CreateEmptyListField.js` – Provides a button to add an item to an empty list.
-  - `Label.js` – Produces a `<label>` element containing an editable link.
-  - `EditableLink.js` – Builds a link that shows edit/delete controls for field names; uses `runtimeDatabase` to resolve ids.
-  - `FieldCreationSection.js` – Interface for creating new fields (type selector, name input, Save/Cancel buttons).
-  - `FieldHandlers.js` – Utility functions for attaching listeners to elements created above.
-  - `formGenerator.js` – Core routine that walks a JSON object and builds the complete set of form elements recursively.
-  - `jsonUpdater.js` – Reads the form inputs and recreates a JSON object.
-  - `FormInitializer.js` – Coordinates form generation and update actions; uses `LogLevelComponent` for debug output.
-  - `LogLevelComponent.js` – Simple in-browser logging facility.
-  - `runtimeDatabase.js` – Tiny runtime key/value store (create/read/update/getAll) used to cache ids of fields.
+- **index.html** – Página HTML estática com uma área de texto para JSON, botões para gerar ou atualizar o formulário, um contêiner `<form>` e uma área de log.
 
-## Usage
+- **main.js** – Ponto de entrada que aguarda `DOMContentLoaded` e chama `initializeForm` de `components/FormInitializer.js`.
+- **css/styles.css** – Estilos para os controles de página e formulário.
+- **components/** – Coleção de módulos ES que implementam todos os elementos e auxiliares da interface do usuário:
+- `Button.js` – Utilitário para criar um elemento `<button>` (`createButton(text, onClick)`).
+- `CheckboxField.js` – Cria um campo de entrada de caixa de seleção.
+- `NumberField.js` – Cria uma entrada restrita a valores numéricos.
+- `TextField.js` – Cria um campo de entrada de texto padrão.
+- `InputField.js` – Escolhe qual dos tipos de campo acima criar com base em um tipo de valor e registra o ID em `runtimeDatabase`.
+- `ToggleButton.js` – Cria botões usados para expandir/recolher listas e objetos com rótulos acessíveis.
+- `CreateObjectField.js` – Gera formulários aninhados para valores de objetos.
+- `CreateListField.js` – Gera formulários aninhados para valores de array e inclui um auxiliar para anexar novas entradas de lista.
+- `CreateEmptyListField.js` – Fornece um botão para adicionar um item a uma lista vazia.
+- `Label.js` – Produz um elemento `<label>` contendo um link editável.
+- `EditableLink.js` – Cria um link que exibe controles de edição/exclusão para nomes de campos; utiliza `runtimeDatabase` para resolver IDs.
+- `FieldCreationSection.js` – Interface para criar novos campos (seletor de tipo, entrada de nome, botões Salvar/Cancelar).
+- `FieldHandlers.js` – Funções utilitárias para anexar ouvintes aos elementos criados acima.
+- `formGenerator.js` – Rotina principal que percorre um objeto JSON e constrói o conjunto completo de elementos do formulário recursivamente.
+- `jsonUpdater.js` – Lê as entradas do formulário e recria um objeto JSON.
+- `FormInitializer.js` – Coordena as ações de geração e atualização do formulário; utiliza `LogLevelComponent` para saída de depuração.
+- `LogLevelComponent.js` – Recurso simples de registro no navegador.
+- `runtimeDatabase.js` – Pequeno repositório de chave/valor em tempo de execução (criar/ler/atualizar/obterTudo) usado para armazenar em cache os IDs dos campos.
 
-Open `index.html` in a browser. Enter a JSON document in the textarea and click **Gerar Formulário** to view the generated form. After editing, press **Atualizar JSON** to see the updated JSON in the textarea. The optional log area (#LOG_LEVEL) displays debug messages.
+## Uso
 
-No server-side components or build steps are required. The project can be served with any static HTTP server.
+Abra `index.html` em um navegador. Insira um documento JSON na área de texto e clique em **Gerar Formulário** para visualizar o formulário gerado. Após a edição, clique em **Atualizar JSON** para ver o JSON atualizado na área de texto. A área de log opcional (#LOG_LEVEL) exibe mensagens de depuração.
 
+Não são necessários componentes do lado do servidor nem etapas de compilação. O projeto pode ser servido com qualquer servidor HTTP estático.
+
+## Instruções sobre comunicação
+
+-Sempre que uma mudança for feita na estrutura do projeto, tais quais: Criar novos arquivos, modificar funcionalidades mencionadas aqui, deletar / ajustar trechos de lógica de funcionamento relevantes, etc. Você deve ajustar esse arquivo como apropriado.
+- Sua comunicação em mensagens de log, comentários de código, mensagens de commits e prs, deve ser feita em português do Brasil.
