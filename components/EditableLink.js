@@ -19,6 +19,7 @@ export function createEditableLink(fieldId, text, isIndex) {
             buttonDiv.classList.add('edit-delete-buttons');
 
             const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
             deleteButton.textContent = 'Deletar';
             deleteButton.addEventListener('click', function () {
                 if (confirm(`Deseja realmente deletar o campo ${text}?`)) {
@@ -29,8 +30,10 @@ export function createEditableLink(fieldId, text, isIndex) {
             
             if (isIndex === false) {
                 const editButton = document.createElement('button');
+                editButton.type = 'button';
                 editButton.textContent = 'Trocar Nome';
-                editButton.addEventListener('click', function firstClick() {
+                editButton.addEventListener('click', function firstClick(event) {
+                    event.preventDefault();
                     const currentId = returnCorrectField(fieldId);
                     const updatedFieldId = currentId;
                     const updatedText = currentId.split('__FIELD__').pop();
