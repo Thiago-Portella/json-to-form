@@ -19,6 +19,7 @@ export function createEditableLink(fieldId, text, isIndex) {
             buttonDiv.classList.add('edit-delete-buttons');
 
             const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
             deleteButton.textContent = 'Deletar';
             deleteButton.addEventListener('click', function () {
                 if (confirm(`Deseja realmente deletar o campo ${text}?`)) {
@@ -29,6 +30,7 @@ export function createEditableLink(fieldId, text, isIndex) {
             
             if (isIndex === false) {
                 const editButton = document.createElement('button');
+                editButton.type = 'button';
                 editButton.textContent = 'Trocar Nome';
                 editButton.addEventListener('click', function firstClick() {
                     const currentId = returnCorrectField(fieldId);
@@ -61,6 +63,8 @@ export function createEditableLink(fieldId, text, isIndex) {
 function updateElementIds(container, oldFieldId, newName) {
     const parentPath = oldFieldId.split('__FIELD__').slice(0, -1).join('__FIELD__');
     const newFieldId = `${parentPath}__FIELD__${newName}`;
+    const oldDisplayName = oldFieldId.split('__FIELD__').join('.');
+    const newDisplayName = newFieldId.split('__FIELD__').join('.');
 
     container.querySelectorAll('[data-key]').forEach(el => {
         if (el.dataset.key.startsWith(oldFieldId)) {
@@ -81,6 +85,14 @@ function updateElementIds(container, oldFieldId, newName) {
         const forAttr = label.getAttribute('for');
         if (forAttr && forAttr.startsWith(oldFieldId)) {
             label.setAttribute('for', forAttr.replace(oldFieldId, newFieldId));
+        }
+    });
+
+    container.querySelectorAll('button[data-toggle-name]').forEach(button => {
+        if (button.dataset.toggleName.startsWith(oldFieldId)) {
+            button.dataset.toggleName = button.dataset.toggleName.replace(oldFieldId, newFieldId);
+            button.textContent = button.textContent.replace(oldDisplayName, newDisplayName);
+            button.setAttribute('aria-label', `${button.textContent} ${button.dataset.toggleType} ${newDisplayName}`);
         }
     });
 

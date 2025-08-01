@@ -26,7 +26,7 @@ As principais funcionalidades são:
 - `CreateListField.js` – Gera formulários aninhados para valores de array e inclui um auxiliar para anexar novas entradas de lista.
 - `CreateEmptyListField.js` – Fornece um botão para adicionar um item a uma lista vazia.
 - `Label.js` – Produz um elemento `<label>` contendo um link editável.
-- `EditableLink.js` – Cria um link que exibe controles de edição/exclusão para nomes de campos; utiliza `runtimeDatabase` para resolver IDs.
+ - `EditableLink.js` – Cria um link que exibe controles de edição/exclusão para nomes de campos; utiliza `runtimeDatabase` para resolver IDs. A função `updateElementIds` também atualiza botões de expansão criados por `ToggleButton.js`.
 - `FieldCreationSection.js` – Interface para criar novos campos (seletor de tipo, entrada de nome, botões Salvar/Cancelar).
 - `FieldHandlers.js` – Funções utilitárias para anexar ouvintes aos elementos criados acima.
 - `formGenerator.js` – Rotina principal que percorre um objeto JSON e constrói o conjunto completo de elementos do formulário recursivamente.
