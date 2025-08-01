@@ -61,6 +61,8 @@ export function createEditableLink(fieldId, text, isIndex) {
 function updateElementIds(container, oldFieldId, newName) {
     const parentPath = oldFieldId.split('__FIELD__').slice(0, -1).join('__FIELD__');
     const newFieldId = `${parentPath}__FIELD__${newName}`;
+    const oldDisplay = oldFieldId.split('__FIELD__').join('.');
+    const newDisplay = newFieldId.split('__FIELD__').join('.');
 
     container.querySelectorAll('[data-key]').forEach(el => {
         if (el.dataset.key.startsWith(oldFieldId)) {
@@ -68,6 +70,24 @@ function updateElementIds(container, oldFieldId, newName) {
             if (el.textContent === oldFieldId.split('__FIELD__').pop()) {
                 el.textContent = newName;
             }
+        }
+    });
+
+    container.querySelectorAll('[data-toggle-name]').forEach(btn => {
+        const toggleName = btn.dataset.toggleName;
+        if (toggleName && toggleName.startsWith(oldFieldId)) {
+            btn.dataset.toggleName = toggleName.replace(oldFieldId, newFieldId);
+            btn.textContent = btn.textContent.replace(oldDisplay, newDisplay);
+            btn.setAttribute('aria-label', btn.textContent);
+        }
+    });
+
+    container.querySelectorAll('[data-parent-key]').forEach(btn => {
+        const parentKey = btn.dataset.parentKey;
+        if (parentKey && parentKey.startsWith(oldFieldId)) {
+            btn.dataset.parentKey = parentKey.replace(oldFieldId, newFieldId);
+            btn.textContent = btn.textContent.replace(oldDisplay, newDisplay);
+            btn.setAttribute('aria-label', btn.textContent);
         }
     });
 
