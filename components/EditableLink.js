@@ -107,6 +107,14 @@ function updateElementIds(container, oldFieldId, newName) {
         }
     });
 
+    container.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        if (input.id && input.id.startsWith(oldFieldId)) {
+            input.id = input.id.replace(oldFieldId, newFieldId);
+            const labelName = newFieldId.split('__FIELD__').pop();
+            input.setAttribute('aria-label', `${labelName} ${input.checked ? 'true' : 'false'}`);
+        }
+    });
+
     updateRuntimeDatabaseIds(oldFieldId, newFieldId);
 }
 
