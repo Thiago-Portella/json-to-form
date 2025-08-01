@@ -65,8 +65,8 @@ export function createEditableLink(fieldId, text, isIndex) {
 function updateElementIds(container, oldFieldId, newName) {
     const parentPath = oldFieldId.split('__FIELD__').slice(0, -1).join('__FIELD__');
     const newFieldId = `${parentPath}__FIELD__${newName}`;
-    const oldDisplay = oldFieldId.split('__FIELD__').join('.');
-    const newDisplay = newFieldId.split('__FIELD__').join('.');
+    const oldDisplayName = oldFieldId.split('__FIELD__').join('.');
+    const newDisplayName = newFieldId.split('__FIELD__').join('.');
 
     container.querySelectorAll('[data-key]').forEach(el => {
         if (el.dataset.key.startsWith(oldFieldId)) {
@@ -113,6 +113,11 @@ function updateElementIds(container, oldFieldId, newName) {
             input.id = input.id.replace(oldFieldId, newFieldId);
             const labelName = newFieldId.split('__FIELD__').pop();
             input.setAttribute('aria-label', `${labelName} ${input.checked ? 'true' : 'false'}`);
+    container.querySelectorAll('button[data-toggle-name]').forEach(button => {
+        if (button.dataset.toggleName.startsWith(oldFieldId)) {
+            button.dataset.toggleName = button.dataset.toggleName.replace(oldFieldId, newFieldId);
+            button.textContent = button.textContent.replace(oldDisplayName, newDisplayName);
+            button.setAttribute('aria-label', `${button.textContent} ${button.dataset.toggleType} ${newDisplayName}`);
         }
     });
 
