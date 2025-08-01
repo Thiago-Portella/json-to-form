@@ -1,0 +1,20 @@
+{
+  "name": "json-to-form",
+  "version": "1.0.0",
+  "description": "Nossa ferramenta de conversão e edição de JSON para formulários é uma solução poderosa e versátil, projetada para desenvolvedores que buscam uma maneira eficiente de visualizar e editar dados JSON. Abaixo, destacamos os principais potenciais e benefícios que nossa ferramenta oferece:",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "node rename.test.js && node allComponents.test.js",
+    "coverage": "c8 --reporter=text --exclude=components/FieldHandlers.js --exclude=components/FormInitializer.js --exclude=components/FieldCreationSection.js --exclude=components/CreateObjectField.js --exclude=components/CreateListField.js --exclude=components/EditableLink.js npm test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom": "^22.1.0"
+  },
+  "devDependencies": {
+    "c8": "^10.1.3"
+  }
+}

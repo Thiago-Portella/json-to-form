@@ -58,9 +58,11 @@ export function createEditableLink(fieldId, text, isIndex) {
     return link;
 }
 
-function updateElementIds(container, oldFieldId, newName) {
-    const parentPath = oldFieldId.split('__FIELD__').slice(0, -1).join('__FIELD__');
-    const newFieldId = `${parentPath}__FIELD__${newName}`;
+export function updateElementIds(container, oldFieldId, newName) {
+    const parts = oldFieldId.split('__FIELD__');
+    parts.pop();
+    const parentPath = parts.length ? parts.join('__FIELD__') + '__FIELD__' : '';
+    const newFieldId = `${parentPath}${newName}`;
 
     container.querySelectorAll('[data-key]').forEach(el => {
         if (el.dataset.key.startsWith(oldFieldId)) {
@@ -68,6 +70,25 @@ function updateElementIds(container, oldFieldId, newName) {
             if (el.textContent === oldFieldId.split('__FIELD__').pop()) {
                 el.textContent = newName;
             }
+        }
+    });
+
+    container.querySelectorAll('[data-toggle-name]').forEach(btn => {
+        if (btn.dataset.toggleName.startsWith(oldFieldId)) {
+            btn.dataset.toggleName = btn.dataset.toggleName.replace(oldFieldId, newFieldId);
+            const displayName = btn.dataset.toggleName.split('__FIELD__').join('.');
+            const action = btn.textContent.startsWith('Recolher') ? 'Recolher' : 'Expandir';
+            const tipo = btn.dataset.toggleType === 'lista' ? 'Lista' : 'Objeto';
+            btn.textContent = `${action} ${tipo} ${displayName}`;
+            btn.setAttribute('aria-label', btn.textContent);
+        }
+    });
+
+    container.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.includes(oldFieldId.split('__FIELD__').join('.'))) {
+            const dotted = newFieldId.split('__FIELD__').join('.');
+            btn.textContent = btn.textContent.replace(oldFieldId.split('__FIELD__').join('.'), dotted);
+            btn.setAttribute('aria-label', btn.textContent);
         }
     });
 

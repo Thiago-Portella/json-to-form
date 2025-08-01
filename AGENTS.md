@@ -15,6 +15,7 @@ As principais funcionalidades são:
 
 - **main.js** – Ponto de entrada que aguarda `DOMContentLoaded` e chama `initializeForm` de `components/FormInitializer.js`.
 - **css/styles.css** – Estilos para os controles de página e formulário.
+- **package.json** – Configuração do npm usada apenas para executar testes automatizados.
 - **components/** – Coleção de módulos ES que implementam todos os elementos e auxiliares da interface do usuário:
 - `Button.js` – Utilitário para criar um elemento `<button>` (`createButton(text, onClick)`).
 - `CheckboxField.js` – Cria um campo de entrada de caixa de seleção.
@@ -40,6 +41,13 @@ As principais funcionalidades são:
 Abra `index.html` em um navegador. Insira um documento JSON na área de texto e clique em **Gerar Formulário** para visualizar o formulário gerado. Após a edição, clique em **Atualizar JSON** para ver o JSON atualizado na área de texto. A área de log opcional (#LOG_LEVEL) exibe mensagens de depuração.
 
 Não são necessários componentes do lado do servidor nem etapas de compilação. O projeto pode ser servido com qualquer servidor HTTP estático.
+
+## Executando localmente
+
+1. Instale as dependências com `npm install`.
+2. Abra `index.html` em um navegador para usar a ferramenta.
+3. Rode `npm test` para executar os testes automatizados em Node.js com jsdom.
+4. Rode `npm run coverage` para verificar a cobertura de código (espera-se acima de 90%).
 
 ## Instruções sobre comunicação
 
