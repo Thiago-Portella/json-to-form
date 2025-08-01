@@ -82,5 +82,6 @@ function createAddFieldButton(parentElement, parentKey) {
         logMessage(`Adicionar novo item em ${displayName}`);
         createFieldCreationSection(parentElement, parentKey, parentElement.dataset.itemType || null);
     });
+    addButton.dataset.parentKey = parentKey;
     parentElement.appendChild(addButton);
 }

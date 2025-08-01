@@ -10,5 +10,6 @@ export function createEmptyListField(parentElement, parentKey) {
         event.preventDefault();
         createFieldCreationSection(parentElement, parentKey, parentElement.dataset.itemType || null);
     });
+    addButton.dataset.parentKey = parentKey;
     parentElement.appendChild(addButton);
 }

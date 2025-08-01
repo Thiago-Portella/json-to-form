@@ -50,5 +50,6 @@ function createAddFieldButton(parentElement, parentKey) {
         event.preventDefault();
         createFieldCreationSection(parentElement, parentKey);
     });
+    addButton.dataset.parentKey = parentKey;
     parentElement.appendChild(addButton);
 }
